@@ -34,13 +34,23 @@ class DashboardController extends AbstractDashboardController
 
     public function configureDashboard(): Dashboard
     {
-        return Dashboard::new()
-            ->setTitle('Crm');
+        #[Route('/admin', name: 'admin')]
+        public function index(): Response
+        {
+            // Hier könntest du z. B. auf eine andere Seite weiterleiten
+            return $this->render('admin/dashboard.html.twig');
+        }
+    
+        public function configureDashboard(): Dashboard
+        {
+            return Dashboard::new()
+                ->setTitle('Meine Admin-Seite');
+        }
+    
+        public function configureMenuItems(): iterable
+        {
+            yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+            yield MenuItem::linkToCrud('Benutzer', 'fa fa-user', User::class);
+        }
     }
-
-    public function configureMenuItems(): iterable
-    {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-    }
-}
+    
